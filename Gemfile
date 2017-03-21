@@ -33,6 +33,7 @@ gem 'haml'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'figaro'
+gem 'faraday'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
