@@ -18,6 +18,7 @@ describe GithubService do
       VCR.use_cassette("github_service#followers") do
         followers = service.followers
         expect(followers.count).to eq(4)
+        expect(followers.first).to be_a(GithubUser)
       end
     end
   end
@@ -27,6 +28,7 @@ describe GithubService do
       VCR.use_cassette("github_service#following") do
         following = service.following
         expect(following.count).to eq(1)
+        expect(following.first).to be_a(GithubUser)
       end
     end
   end

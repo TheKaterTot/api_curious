@@ -6,18 +6,26 @@ class GithubService
   end
 
   def starred_repos
-    parse(client.get("/user/starred", {access_token: token}))
+    fetch_data("/user/starred")
   end
 
   def followers
-    parse(client.get("/user/followers", {access_token: token}))
+    fetch_data("/user/followers").map do |follower|
+      GithubUser.new(follower)
+    end
   end
 
   def following
-    parse(client.get("/user/following", {access_token: token}))
+    fetch_data("/user/following").map do |user|
+      GithubUser.new(user)
+    end
   end
 
   private
+
+  def fetch_data(path)
+    parse(client.get(path, {access_token: token}))
+  end
 
   def client
     Faraday.new(url: "https://api.github.com")
