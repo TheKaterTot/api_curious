@@ -18,10 +18,18 @@ class User < ApplicationRecord
   end
 
   def followers
-    GithubService.new(token).followers.count
+    GithubService.new(token).followers.map { |follower| follower.name }
   end
 
   def following
     GithubService.new(token).following.count
+  end
+
+  def recent_commits
+    GithubService.new(token).commits(self.username)
+  end
+
+  def follower_commits
+    GithubService.new(token).follower_commits(followers)
   end
 end

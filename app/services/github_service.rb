@@ -1,12 +1,21 @@
 class GithubService
-  attr_reader :token
+  attr_reader :token, :client
 
-  def initialize(token)
+  def initialize(token, options={})
     @token = token
+    @client = options.fetch(:client) do
+      Faraday.new(url: "https://api.github.com")
+    end
   end
 
   def starred_repos
     fetch_data("/user/starred")
+  end
+
+  def repos
+    fetch_data("/user/repos").map do |repo|
+      GithubRepo.new(repo)
+    end
   end
 
   def followers
@@ -15,20 +24,40 @@ class GithubService
     end
   end
 
+  def follower_repos
+    followers.map do |follower|
+      fetch_data("/users/#{follower.name}/repos").map do |repo|
+        GithubFollowerRepo.new(follower, repo)
+      end
+    end.flatten
+  end
+
   def following
     fetch_data("/user/following").map do |user|
       GithubUser.new(user)
     end
   end
 
+  def commits(user)
+    repos.map do |repo|
+      fetch_data("#{repo.commit_url}?author=#{user}").map do |commit|
+        GithubCommit.new(commit)
+      end
+    end.flatten.sort_by { |commit| commit.date }.reverse
+  end
+
+  def follower_commits(followers)
+    follower_repos.map do |repo|
+      fetch_data("#{repo.commit_url}?author=#{repo.follower_name}").map do |commit|
+        GithubCommit.new(commit)
+      end
+    end.flatten.sort_by { |commit| commit.date }.reverse
+  end
+
   private
 
   def fetch_data(path)
     parse(client.get(path, {access_token: token}))
-  end
-
-  def client
-    Faraday.new(url: "https://api.github.com")
   end
 
   def parse(response)
