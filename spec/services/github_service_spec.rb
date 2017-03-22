@@ -12,4 +12,22 @@ describe GithubService do
       end
     end
   end
+
+  describe "#followers" do
+    it "returns the user's followers" do
+      VCR.use_cassette("github_service#followers") do
+        followers = service.followers
+        expect(followers.count).to eq(4)
+      end
+    end
+  end
+
+  describe "#following" do
+    it "returns the followed users" do
+      VCR.use_cassette("github_service#following") do
+        following = service.following
+        expect(following.count).to eq(1)
+      end
+    end
+  end
 end

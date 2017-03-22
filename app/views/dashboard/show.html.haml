@@ -1,3 +1,12 @@
 %h2 Success!
 
-=current_user.name
+#user_details
+  =current_user.name
+  =current_user.username
+  %img{src: current_user.image_url}
+  Number of starred repos:
+  =current_user.starred_repos
+  Number of followers:
+  =current_user.followers
+  Number of users you are following:
+  =current_user.following
