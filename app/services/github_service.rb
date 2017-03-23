@@ -49,7 +49,9 @@ class GithubService
   def commits(user)
     repos.map do |repo|
       fetch_data("#{repo.commit_url}?author=#{user}").map do |commit|
-        GithubCommit.new(commit, repo)
+        if commit.is_a?(Hash)
+          GithubCommit.new(commit, repo)
+        end
       end
     end.flatten.sort_by { |commit| commit.date }.reverse
   end
