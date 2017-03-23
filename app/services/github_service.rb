@@ -53,7 +53,7 @@ class GithubService
           GithubCommit.new(commit, repo)
         end
       end
-    end.flatten.sort_by { |commit| commit.date }.reverse
+    end.flatten.compact.sort_by { |commit| commit.date }.reverse
   end
 
   def follower_commits(followers)
