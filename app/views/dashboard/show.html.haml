@@ -24,7 +24,7 @@
   %ul
     - current_user.followers.each do |user|
       %li
-        = user
+        = user.name
   %h4 Your starred repos:
   %ul
     - current_user.starred_repos.each do |repo|
