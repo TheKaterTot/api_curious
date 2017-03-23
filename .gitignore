@@ -28,3 +28,6 @@
 /spec/cassettes
 
 .DS_Store
+
+#Ignore simplecov
+coverage
