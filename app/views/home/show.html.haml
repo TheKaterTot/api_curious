@@ -1,6 +1,6 @@
 %h2.welcome.center GitFake
 
 .jumbotron
-  %img{src: "/assets/GitHub-Mark.png", class: "image_center resize_image"}
+  = image_tag("GitHub-Mark.png", {class: "image_center resize_image"})
   %h3{id: "login", class: "center"}
-    =link_to "Log in with your Github account", "/auth/github"
+    = link_to "Log in with your Github account", "/auth/github"
