@@ -35,6 +35,6 @@ class User < ApplicationRecord
   end
 
   def follower_commits
-    GithubService.new(token).follower_commits(followers)
+    GithubService.new(token).follower_commits(followers).take(10)
   end
 end

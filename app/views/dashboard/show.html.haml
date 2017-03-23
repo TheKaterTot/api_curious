@@ -1,6 +1,7 @@
 %h2 Welcome to GitFake, #{current_user.name}
 
-.well.well-lg#user_details.col-md-3
+
+#user_details.col-md-4.padding-bottom
   %img.resize_image{src: current_user.image_url}
   %br
   = current_user.username
@@ -14,7 +15,7 @@
   Number of users you are following:
   = current_user.following.count
 
-.well.well-lg.col-md-6
+.col-md-8.padding-bottom
   %h4 You are following:
   %ul
     - current_user.following.each do |user|
@@ -30,19 +31,47 @@
     - current_user.starred_repos.each do |repo|
       %li
         = repo.name
+  %h4 Your organizations:
+  %ul
+    - current_user.organizations.each do |org|
+      %li
+        = org.name
 
-%table.table.table-striped.table-hover
-  %thead
-    %tr
-      %th Repo
-      %th Date
-      %th Message
-  %tbody
-    - current_user.recent_commits.each do |commit|
+.container
+  %h3 Your Recent Commits
+  %table.table.table-striped.table-hover
+    %thead
       %tr
-        %td
-          = commit.repo_name
-        %td
-          = commit.date
-        %td
-          = commit.message
+        %th Repo
+        %th Date
+        %th Message
+    %tbody
+      - current_user.recent_commits.each do |commit|
+        %tr
+          %td
+            = commit.repo_name
+          %td
+            = commit.date
+          %td
+            = commit.message
+
+.container
+  %h3 Your Followers' Recent Commits
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Follower
+        %th Repo
+        %th Date
+        %th Message
+    %tbody
+      - current_user.follower_commits.each do |commit|
+        %tr
+          %td
+            = commit.follower_name
+          %td
+            = commit.repo_name
+          %td
+            = commit.date
+          %td
+            = commit.message

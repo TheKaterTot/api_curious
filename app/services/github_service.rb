@@ -57,9 +57,11 @@ class GithubService
   def follower_commits(followers)
     follower_repos.map do |repo|
       fetch_data("#{repo.commit_url}?author=#{repo.follower_name}").map do |commit|
-        GithubCommit.new(commit, repo)
+        if commit.is_a?(Hash)
+          GithubFollowerCommit.new(commit, repo)
+        end
       end
-    end.flatten.sort_by { |commit| commit.date }.reverse
+    end.flatten.compact.sort_by { |commit| commit.date }.reverse
   end
 
   private
