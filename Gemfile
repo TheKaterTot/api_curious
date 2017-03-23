@@ -34,6 +34,7 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'figaro'
 gem 'faraday'
+gem 'pg'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
