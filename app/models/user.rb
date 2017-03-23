@@ -1,12 +1,13 @@
 class User < ApplicationRecord
   def self.find_or_create_from_auth(auth)
-    User.find_or_create_by(
+    user = User.find_or_create_by(
       provider: auth["provider"],
       name: auth["info"]["name"],
       uid: auth["extra"]["raw_info"]["id"],
       username: auth["info"]["nickname"],
-      token: auth["credentials"]["token"]
     )
+    user.update_attribute(:token, auth["credentials"]["token"])
+    user
   end
 
   def image_url
@@ -14,19 +15,23 @@ class User < ApplicationRecord
   end
 
   def starred_repos
-    GithubService.new(token).starred_repos.count
+    GithubService.new(token).starred_repos
+  end
+
+  def organizations
+    GithubService.new(token).organizations
   end
 
   def followers
-    GithubService.new(token).followers.map { |follower| follower.name }
+    GithubService.new(token).followers
   end
 
   def following
-    GithubService.new(token).following.count
+    GithubService.new(token).following
   end
 
   def recent_commits
-    GithubService.new(token).commits(self.username)
+    GithubService.new(token).commits(username).take(10)
   end
 
   def follower_commits

@@ -9,12 +9,20 @@ class GithubService
   end
 
   def starred_repos
-    fetch_data("/user/starred")
+    fetch_data("/user/starred").map do |repo|
+      GithubStarredRepo.new(repo)
+    end
   end
 
   def repos
     fetch_data("/user/repos").map do |repo|
       GithubRepo.new(repo)
+    end
+  end
+
+  def organizations
+    fetch_data("/user/orgs").map do |org|
+      GithubOrg.new(org)
     end
   end
 
@@ -41,7 +49,7 @@ class GithubService
   def commits(user)
     repos.map do |repo|
       fetch_data("#{repo.commit_url}?author=#{user}").map do |commit|
-        GithubCommit.new(commit)
+        GithubCommit.new(commit, repo)
       end
     end.flatten.sort_by { |commit| commit.date }.reverse
   end

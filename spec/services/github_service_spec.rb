@@ -76,6 +76,30 @@ describe GithubService do
     end
   end
 
+  describe "#organizations" do
+    let(:body) do
+      [{"login" => "cooltown"},
+       {"login" => "superfreaks"}].to_json
+    end
+
+    let(:options) { {client: client} }
+
+    before do
+      expect(client).to receive(:get)
+        .with("/user/orgs", { access_token: token })
+        .and_return(response)
+    end
+
+    it "returns the user's orgs" do
+      orgs = service.organizations
+      expect(orgs.count).to eq(2)
+      expect(orgs.first.name).to eq("cooltown")
+      expect(orgs.first).to be_a(GithubOrg)
+      expect(orgs.last.name).to eq("superfreaks")
+      expect(orgs.last).to be_a(GithubOrg)
+    end
+  end
+
   describe "#commits" do
     let(:body) do
       [{"owner" => {"login" => "TheKaterTot"},
@@ -86,14 +110,14 @@ describe GithubService do
 
     let(:response_1) { double(:response, body: body_1) }
     let(:body_1) do
-      [{"name" => "TheKaterTot", "date" => "2013-02-24T01:30:26Z"},
-       {"name" => "TheKaterTot", "date" => "2013-01-24T01:30:26Z"}].to_json
+      [{"commit" => {"committer" => {"date" => "2013-02-24T01:30:26Z"}}},
+       {"commit" => {"committer" => {"date" => "2013-01-24T01:30:26Z"}}}].to_json
     end
 
     let(:response_2) { double(:response, body: body_2) }
     let(:body_2) do
-      [{"name" => "TheKaterTot", "date" => "2013-04-24T01:30:26Z"},
-       {"name" => "TheKaterTot", "date" => "2013-03-24T01:30:26Z"}].to_json
+      [{"commit" => {"committer" => {"date" => "2013-04-24T01:30:26Z"}}},
+       {"commit" => {"committer" => {"date" => "2013-03-24T01:30:26Z"}}}].to_json
     end
 
     let(:options) { { client: client } }
@@ -137,14 +161,14 @@ describe GithubService do
 
     let(:response_3) { double(:response, body: body_3) }
     let(:body_3) do
-      [{"name" => "bthesorceror", "date" => "2013-06-24T01:30:26Z"},
-       {"name" => "bthesorceror", "date" => "2013-05-24T01:30:26Z"}].to_json
+      [{"commit" => {"committer" => {"date" => "2013-06-24T01:30:26Z"}}},
+       {"commit" => {"committer" => {"date" => "2013-05-24T01:30:26Z"}}}].to_json
     end
 
     let(:response_4) { double(:response, body: body_4) }
     let(:body_4) do
-      [{"name" => "bob", "date" => "2013-04-24T01:30:26Z"},
-       {"name" => "bob", "date" => "2013-03-24T01:30:26Z"}].to_json
+      [{"commit" => {"committer" => {"date" => "2013-04-24T01:30:26Z"}}},
+       {"commit" => {"committer" => {"date" => "2013-03-24T01:30:26Z"}}}].to_json
     end
 
     let(:options) { { client: client } }
@@ -166,6 +190,7 @@ describe GithubService do
         .with("/repos/bob/School/commits?author=bob", { access_token: token })
         .and_return(response_4)
     end
+    
     it "returns all recent commits from followers" do
       follower_commits = service.follower_commits(["bthesorceror", "bob"])
       expect(follower_commits.count).to eq(4)

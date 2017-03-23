@@ -25,3 +25,5 @@
 
 #Ignore cassettes
 /spec/cassettes
+
+.DS_Store

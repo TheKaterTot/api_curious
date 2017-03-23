@@ -1,4 +1,6 @@
-%h2{class: "welcome"} Welcome!
+%h2.welcome.center GitFake
 
-%h3{id: "login"}
-  =link_to "Log in with your Github account", "/auth/github"
+.jumbotron
+  %img{src: "/assets/GitHub-Mark.png", class: "image_center resize_image"}
+  %h3{id: "login", class: "center"}
+    =link_to "Log in with your Github account", "/auth/github"

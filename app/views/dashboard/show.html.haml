@@ -1,12 +1,48 @@
-%h2 Success!
+%h2 Welcome to GitFake, #{current_user.name}
 
-#user_details
-  =current_user.name
-  =current_user.username
-  %img{src: current_user.image_url}
+.well.well-lg#user_details.col-md-3
+  %img.resize_image{src: current_user.image_url}
+  %br
+  = current_user.username
+  %br
   Number of starred repos:
-  =current_user.starred_repos
+  = current_user.starred_repos.count
+  %br
   Number of followers:
-  =current_user.followers
+  = current_user.followers.count
+  %br
   Number of users you are following:
-  =current_user.following
+  = current_user.following.count
+
+.well.well-lg.col-md-6
+  %h4 You are following:
+  %ul
+    - current_user.following.each do |user|
+      %li
+        = user.name
+  %h4 Your followers:
+  %ul
+    - current_user.followers.each do |user|
+      %li
+        = user
+  %h4 Your starred repos:
+  %ul
+    - current_user.starred_repos.each do |repo|
+      %li
+        = repo.name
+
+%table.table.table-striped.table-hover
+  %thead
+    %tr
+      %th Repo
+      %th Date
+      %th Message
+  %tbody
+    - current_user.recent_commits.each do |commit|
+      %tr
+        %td
+          = commit.repo_name
+        %td
+          = commit.date
+        %td
+          = commit.message
