@@ -45,6 +45,7 @@ feature "user logs in with Github" do
     allow_any_instance_of(ApplicationController)
       .to receive(:current_user).and_return(user)
     allow(user).to receive(:starred_repos).and_return([repo_1])
+    allow(user).to receive(:repos).and_return([repo_1])
     allow(user).to receive(:followers).and_return([jake, jerrod])
     allow(user).to receive(:following).and_return([brandon])
     allow(user).to receive(:recent_commits).and_return([commit])

@@ -14,6 +14,10 @@ class User < ApplicationRecord
     "https://avatars3.githubusercontent.com/u/#{uid}?v=3&s=150"
   end
 
+  def repos
+    GithubService.new(token).repos
+  end
+
   def starred_repos
     GithubService.new(token).starred_repos
   end

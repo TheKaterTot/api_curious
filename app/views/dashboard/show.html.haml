@@ -1,40 +1,54 @@
 %h2 Welcome to GitFake, #{current_user.name}
 
-#user_details.col-md-4.padding-bottom
-  %img.resize_image{src: current_user.image_url}
-  %br
-  = current_user.username
-  %br
-  Number of starred repos:
-  = current_user.starred_repos.count
-  %br
-  Number of followers:
-  = current_user.followers.count
-  %br
-  Number of users you are following:
-  = current_user.following.count
+.container
+  #user_details.col-md-2.padding-bottom
+    %img.resize_image{src: current_user.image_url}
+    %br
+    = current_user.username
+    %br
+    Number of starred repos:
+    = current_user.starred_repos.count
+    %br
+    Number of followers:
+    = current_user.followers.count
+    %br
+    Number of users you are following:
+    = current_user.following.count
 
-.col-md-8.padding-bottom
-  %h4 You are following:
-  %ul
-    - current_user.following.each do |user|
-      %li
-        = user.name
-  %h4 Your followers:
-  %ul
-    - current_user.followers.each do |user|
-      %li
-        = user.name
-  %h4 Your starred repos:
-  %ul
-    - current_user.starred_repos.each do |repo|
-      %li
-        = repo.name
-  %h4 Your organizations:
-  %ul
-    - current_user.organizations.each do |org|
-      %li
-        = org.name
+  .col-md-2.padding-bottom
+    %h4 You are following:
+    %ul.scrollable
+      - current_user.following.each do |user|
+        %li
+          = user.name
+
+  .col-md-2.padding-bottom
+    %h4 Your followers:
+    %ul.scrollable
+      - current_user.followers.each do |user|
+        %li
+          = user.name
+
+  .col-md-2.padding-bottom
+    %h4 Your starred repos:
+    %ul.scrollable
+      - current_user.starred_repos.each do |repo|
+        %li
+          = repo.name
+
+  .col-md-2.padding-bottom
+    %h4 Your organizations:
+    %ul.scrollable
+      - current_user.organizations.each do |org|
+        %li
+          = org.name
+
+  .col-md-2.padding-bottom
+    %h4 Your repos:
+    %ul.scrollable
+      - current_user.repos.each do |repo|
+        %li
+          = repo.name
 
 .container
   %h3 Your Recent Commits
