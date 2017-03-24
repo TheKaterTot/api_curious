@@ -1,6 +1,5 @@
 %h2 Welcome to GitFake, #{current_user.name}
 
-
 #user_details.col-md-4.padding-bottom
   %img.resize_image{src: current_user.image_url}
   %br
@@ -51,7 +50,7 @@
           %td
             = commit.repo_name
           %td
-            = commit.date
+            = commit.date.strftime("%I:%M %p %B %d, %Y")
           %td
             = commit.message
 
@@ -72,6 +71,6 @@
           %td
             = commit.repo_name
           %td
-            = commit.date
+            = commit.date.strftime("%I:%M %p %B %d, %Y")
           %td
             = commit.message

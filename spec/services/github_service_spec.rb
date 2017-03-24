@@ -137,7 +137,9 @@ describe GithubService do
       commits = service.commits("TheKaterTot")
       expect(commits.count).to eq(4)
       expect(commits.first.date.month).to eq(4)
+      expect(commits.first).to be_a(GithubCommit)
       expect(commits.last.date.month).to eq(1)
+      expect(commits.last).to be_a(GithubCommit)
     end
   end
 
@@ -190,12 +192,14 @@ describe GithubService do
         .with("/repos/bob/School/commits?author=bob", { access_token: token })
         .and_return(response_4)
     end
-    
+
     it "returns all recent commits from followers" do
       follower_commits = service.follower_commits(["bthesorceror", "bob"])
       expect(follower_commits.count).to eq(4)
       expect(follower_commits.first.date.month).to eq(6)
+      expect(follower_commits.first).to be_a(GithubFollowerCommit)
       expect(follower_commits.last.date.month).to eq(3)
+      expect(follower_commits.last).to be_a(GithubFollowerCommit)
     end
   end
 end
