@@ -12,7 +12,7 @@ describe GithubService do
     it "returns the starred repos" do
       VCR.use_cassette("github_service#starred_repos") do
         starred_repos = service.starred_repos
-        expect(starred_repos.count).to eq(1)
+        expect(starred_repos.count).to eq(2)
       end
     end
   end
@@ -45,7 +45,7 @@ describe GithubService do
     it "returns the followed users" do
       VCR.use_cassette("github_service#following") do
         following = service.following
-        expect(following.count).to eq(1)
+        expect(following.count).to eq(2)
         expect(following.first).to be_a(GithubUser)
         expect(following.first.name).to eq("bthesorceror")
       end

@@ -1,9 +1,10 @@
 language: ruby
-rvm:
-  2.1.2
+rvm: 2.3.0
 services:
-  - postgresql
+- postgresql
 before_script:
 - psql -c 'create database api_curious_test;' -U postgres
-
 script: bundle exec rspec spec
+deploy:
+  api_key:
+    secure: TgSDyIzweWO3M8w64GCUK3SO9y9W6FI3YAbbC4yExDzVTn7xyq+xzkkn+S7bguYIRQD6sUTyA8FhnlNoQLJqlDIAudlZuiX+iYGZpMMYH8i0hcWF5fAcnzUOprEpChGNckNXX9M0qCSlYfpe6rbHNlOjkf+zVwFzNHG8GeQc8eMJ25kKw9CefaWfykN2gylaapQSgKEM4gfxBBR1uH+L6PFYRSJuJmethYrQdahiZTngTpzlJB43LQRGBbKenME6BbFgY41pgRz31IXdZSwQOx7k+x4+2F5XynJ43v9DYCKxplu40h5jg7l1p7c4s4F6hmb+bo309folQnXuKcZACg5b5rPOufN6/c2MrHPn7v6En7BFswmyEyTeoWREP80FB3pZ/d/WU0J7KVErAx+rJpUTfDPcxebaavKvS4we5GUZDhZQHD5ueolcE4e/rf7eISgeTNBITvZlcviHv4uAZjINdpWZmM7bFVHS76Q6W3fmPMSaP0Ln/LWOueAgsly0LVe8qGRlFsPmVJUcY6TvuOuKn8864wrJnDBljGKVJHcMpfJXcG3SjWjb79it5E8CKHG3WYQSFwO/3WUC/GmsO56cC5Mr0NfwvECt1UZnscY+tjpNphlSAoHD6qVhuPG2lwtJES2vmCoyeqvScwvemS6FD3tCL7UgG4q+g9h9ceY=
